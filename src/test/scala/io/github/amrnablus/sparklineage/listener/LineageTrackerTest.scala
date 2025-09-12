@@ -1,21 +1,16 @@
 package io.github.amrnablus.sparklineage.listener
 
-import org.apache.spark.sql.SparkSession
+import io.github.amrnablus.sparklineage.spark.PlanParser.TableInfo
+import io.github.amrnablus.sparklineage.transport.TransportTrait
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.spark.sql.catalyst.plans.logical.OneRowRelation
 import org.apache.spark.sql.execution.QueryExecution
 import org.apache.spark.sql.execution.datasources.SaveIntoDataSourceCommand
 import org.apache.spark.sql.sources.CreatableRelationProvider
-import org.apache.spark.sql.SaveMode
-import org.scalatest.funsuite.AnyFunSuite
 import org.mockito.Mockito._
-import org.mockito.ArgumentMatchers._
-import io.github.amrnablus.sparklineage.listener.LineageTracker
-import io.github.amrnablus.sparklineage.spark.PlanParser
-import io.github.amrnablus.sparklineage.spark.PlanParser.TableInfo
-import io.github.amrnablus.sparklineage.transport.TransportTrait
-import io.github.amrnablus.sparklineage.utils.LineageConfig
-import org.apache.spark.SparkConf
-import org.apache.spark.sql.catalyst.plans.logical.OneRowRelation
 import org.mockito.scalatest.MockitoSugar
+import org.scalatest.funsuite.AnyFunSuite
 
 // Companion object to hold the mock (needed since constructor can't access local val)
 object DummyTransportTest {

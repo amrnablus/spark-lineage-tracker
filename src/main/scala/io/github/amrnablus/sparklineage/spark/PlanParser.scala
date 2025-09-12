@@ -24,8 +24,6 @@ object PlanParser {
   private val SQL_DISCLAIMER_COMMENT =
     "\n-- THIS SQL IS EXTRACTED FROM SPARK AND IS NOT INTENDED TO RUN IN A PRODUCTION ENVIRONMENT\n"
 
-  private val SQL_JDBC_SOURCE = "\n-- SELECTING FROM %s\n"
-
   def generateSql(
       command: SaveIntoDataSourceCommand
   ): (String, TableInfo, Seq[TableInfo]) = {
@@ -57,17 +55,18 @@ object PlanParser {
             tableStack
           )
         } else {
+          logger.warn("Writing to an unknow table, skipping lineage")
           throw new RuntimeException(
             "Writing to an unknow table, skipping lineage"
           )
         }
 
       case _ =>
+        logger.warn("dbtable not present in the write query, cannot save lineage")
         throw new RuntimeException(
           "dbtable not present in the write query, cannot save lineage"
         )
     }
-
   }
 
   def generateCleanSQL(
