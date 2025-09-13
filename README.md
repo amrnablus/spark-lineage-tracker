@@ -6,6 +6,8 @@
 
 > ⚠️ This project is in **early stages** and has **not been tested in production**. Use with caution.
 
+> ⚠️ This is not a replacement for the [official spark-openmetadata](https://docs.open-metadata.org/latest/connectors/ingestion/lineage/spark-lineage) connector and is meant to be used IN CONJUNCTION with it. They each do different things.
+
 A Spark 3.x listener that automatically tracks **JDBC reads/writes** and stores lineage in your data governance system.  
 Default implementation integrates with [OpenMetadata](https://open-metadata.org/).
 
