@@ -93,6 +93,36 @@ To use it as a Maven/SBT dependency:
 
 ---
 
+
+## Pseudo-SQL Generation
+
+In addition to capturing lineage, the connector generates **pseudo-SQL** that represents Spark read/write operations in a SQL-like format.
+
+⚠️ **Note:** This SQL is extracted from Spark and **not intended to run in a production environment**.
+
+Benefits:
+- Easier debugging of Spark jobs
+- Human-readable context for lineage
+- Better integration with OpenMetadata
+
+### Example Output
+
+```sql
+-- THIS SQL IS EXTRACTED FROM SPARK AND IS NOT INTENDED TO RUN IN A PRODUCTION ENVIRONMENT
+SELECT location_key, location_name, population, total_confirmed, avg_deceased 
+FROM (
+    SELECT location_key, 
+           SUM(new_confirmed) AS total_confirmed, 
+           AVG(new_deceased) AS avg_deceased 
+    FROM omd_test.covid19_small 
+    WHERE (location_key = 'PSE') 
+    GROUP BY location_key
+) 
+INNER JOIN omd_test.locations
+    ON (location_key = location_id)
+```
+
+---
 ## Usage Example
 
 ```scala
