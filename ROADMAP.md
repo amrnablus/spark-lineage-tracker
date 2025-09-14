@@ -6,7 +6,7 @@ Contributions and feedback are welcome — feel free to open an issue or discuss
 ---
 
 ## 🚧 In Progress
-- - [ ] Add support for **DataFrameWriter** APIs (e.g., `insertInto`, `save` with formats)
+- [ ] Add support for **DataFrameWriter** APIs (e.g., `insertInto`, `save` with formats)
 - [ ] Support raw SQL lineage tracking via `spark.sql`
 - [ ] Support additional save methods (e.g., `saveAsTable`)
 - [ ] Improve Spark plan → SQL generation
