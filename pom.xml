@@ -4,7 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.amrnablus</groupId>
     <artifactId>spark-lineage-listener</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-RC2</version>
+    <name>Spark Lineage Listener</name>
+    <description>Automatically capture lineage from Spark and publish to OpenMetadata with pseudo-SQL.</description>
+    <url>https://github.com/amrnablus/spark-lineage-listener</url>
+
     <properties>
         <scala.version.major>2.12</scala.version.major>
         <scala.version.minor>16</scala.version.minor>
@@ -12,10 +16,30 @@
         <spark.version>3.5.0</spark.version>
         <log4j.version>2.20.0</log4j.version>
         <scalatest.version>3.2.19</scalatest.version>
-        <openLineageVersion>1.12.0</openLineageVersion>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+    <developers>
+        <developer>
+            <id>amrnablus</id>
+            <name>Amr Shahin</name>
+            <email>amrnablus@gmail.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License</name>
+            <url>http://www.apache.org/licenses/</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/amrnablus/spark-lineage-tracker.git</connection>
+        <developerConnection>scm:git:ssh://github.com/amrnablus/spark-lineage-tracker.git</developerConnection>
+        <url>https://github.com/amrnablus/spark-lineage-tracker</url>
+    </scm>
+
+
     <dependencies>
         <!-- Spark dependencies -->
         <dependency>
@@ -120,8 +144,37 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+
+            <!-- GPG signing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.8</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals><goal>sign</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <keyname>8A9CE547BFFB50CB4077E143188CC13EF595311B</keyname>
+                    <passphrase>${gpg.passphrase}</passphrase>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
@@ -160,31 +213,33 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Assembly (fat jar) plugin -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.gmail.amrnablus.SparkApp</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>4.9.6</version>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>doc-jar</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
