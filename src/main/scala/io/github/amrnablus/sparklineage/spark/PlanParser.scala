@@ -62,7 +62,9 @@ object PlanParser {
         }
 
       case _ =>
-        logger.warn("dbtable not present in the write query, cannot save lineage")
+        logger.warn(
+          "dbtable not present in the write query, cannot save lineage"
+        )
         throw new RuntimeException(
           "dbtable not present in the write query, cannot save lineage"
         )
