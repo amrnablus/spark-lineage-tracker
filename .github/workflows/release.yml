@@ -30,7 +30,7 @@ jobs:
         run: export JAVA_TOOL_OPTIONS="--add-exports=java.base/sun.nio.ch=ALL-UNNAMED"
 
       - name: Build & Deploy
-        run: mvn clean deploy -P release -B -U -DskipTests
+        run: mvn clean deploy -B -U -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }} -Dgpg.pinentry-mode=loopback
         env:
           SONATYPE_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.CENTRAL_TOKEN }}
