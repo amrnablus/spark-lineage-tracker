@@ -219,6 +219,11 @@ Running the code above will generate lineage for your `omd_test.omd_test.covid19
 
 ---
 
+## Roadmap
+
+Planned features and improvements are tracked in the [ROADMAP.md](./ROADMAP.md).  
+Contributions and feedback are welcome!
+
 ## Contributing
 
 Contributions, issues, and feature requests are welcome!  
